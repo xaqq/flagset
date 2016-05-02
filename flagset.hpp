@@ -39,6 +39,11 @@ struct FlagSet
    */
   FlagSet(const FlagSet &o) = default;
 
+  FlagSet(const T &val)
+  {
+    set(val);
+  }
+
   /**
    * Copy rhs into lhs.
    */
@@ -50,8 +55,7 @@ struct FlagSet
    */
   FlagSet &operator|=(const T &val)
   {
-    bitset.set(static_cast<utype>(val));
-    return *this;
+    return set(val);
   }
 
   /**
@@ -76,6 +80,31 @@ struct FlagSet
   {
     bitset &= o.bitset;
     return *this;
+  }
+
+  /**
+   * Clear the bitset then set `val` bit.
+   */
+  FlagSet &operator=(const T &val)
+  {
+    bitset.reset();
+    return set(val);
+  }
+
+  /**
+   * Add `val` to the flagset
+   */
+  FlagSet &operator+=(const T& val)
+  {
+    return set(val);
+  }
+
+  /**
+   * Remove `val` from the flagset
+   */
+  FlagSet &operator-=(const T& val)
+  {
+    return set(val, false);
   }
 
   /**
@@ -150,6 +179,11 @@ struct FlagSet
    * Below are the method from std::bitset that we expose.
    */
 
+  bool operator!=(const FlagSet &o) const
+  {
+    return bitset != o.bitset;
+  }
+  
   bool operator==(const FlagSet &o) const
   {
     return bitset == o.bitset;

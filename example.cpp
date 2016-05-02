@@ -14,8 +14,23 @@ enum class Options : uint64_t
   LAST__ // mandatory sentinel variable to indicate the end of the enumeration.
 };
 
+void test_ADD()
+{
+  FlagSet<Options> f(Options::FULLSCREEN);
+  FlagSet<Options> f2(Options::FULLSCREEN | Options::BLA | Options::INVERT_MOUSE);
 
-int test_AND()
+  assert(f);
+  assert(f != f2);
+  assert(!(f == f2));
+  f += Options::BLA;
+  f += Options::INVERT_MOUSE;
+
+  assert(f == f2);
+  f -= Options::BLA;
+  assert(f != f2);
+}
+
+void test_AND()
 {
   FlagSet<Options> red(Options::RED_FOREGROUND | Options::RED_BACKGROUND);
 
@@ -36,7 +51,7 @@ int test_AND()
   assert(ret.count() == 0);
 }
 
-int test_OR()
+void test_OR()
 {
   FlagSet<Options> red;
   red |= Options::RED_FOREGROUND | Options::RED_BACKGROUND;
@@ -62,7 +77,7 @@ int test_OR()
   assert(opt & Options::INVERT_MOUSE);
 }
 
-int test_set_reset()
+void test_set_reset()
 {
   FlagSet<Options> opt;
 
@@ -78,7 +93,7 @@ int test_set_reset()
   assert(opt.count() == 0);
 }
 
-int test_type_safety()
+void test_type_safety()
 {
   // The following will not compile.
   FlagSet<Options> bs;
@@ -91,9 +106,10 @@ int test_type_safety()
 
 int main()
 {
-  auto t = std::bitset<4>();
-  assert((int)Options::FULLSCREEN == 0);
   test_AND();
   test_OR();
+  test_ADD();
   test_set_reset();
+
+  return 0;
 }
