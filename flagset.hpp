@@ -253,22 +253,40 @@ struct FlagSet
     return stream << me.bitset;
   }
 
+
 private:
   using utype = typename std::underlying_type<T>::type;
-  std::bitset<static_cast<utype>(T::LAST__)> bitset;
+        using bitset_type = std::bitset<static_cast<utype>(T::LAST__)>;
+  bitset_type bitset;
+
+      public:
+        FlagSet(const std::string &repr) :
+            bitset(repr)
+        {
+
+        }
+        const bitset_type &get_bitset() const {return bitset;}
 };
 
+template<typename E>
+using is_scoped_enum = std::integral_constant<
+    bool,
+    std::is_enum<E>::value && !std::is_convertible<E, int>::value>;
+
+namespace FlagSetOperator
+{
 /**
  * Provide a free operator allowing to combine two enumeration
  * member into a FlagSet.
  */
-template <typename T>
-typename std::enable_if<std::is_enum<T>::value, FlagSet<T>>::type
+template<typename T>
+typename std::enable_if<is_scoped_enum<T>::value, FlagSet<T>>::type
 operator|(const T &lhs, const T &rhs)
 {
-  FlagSet<T> bs;
-  bs |= lhs;
-  bs |= rhs;
+    FlagSet<T> bs;
+    bs |= lhs;
+    bs |= rhs;
 
-  return bs;
+    return bs;
+}
 }
