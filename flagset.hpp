@@ -113,7 +113,7 @@ struct FlagSet
    *
    * The resulting bitset can contain at most 1 bit.
    */
-  FlagSet operator&(const T &val)
+  FlagSet operator&(const T &val) const
   {
     FlagSet ret(*this);
     ret &= val;
@@ -125,7 +125,7 @@ struct FlagSet
    * Perform a AND binary operation between *this and
    * `val` and return the result as a copy.
    */
-  FlagSet operator&(const FlagSet &val)
+  FlagSet operator&(const FlagSet &val) const
   {
     FlagSet ret(*this);
     ret.bitset &= val.bitset;
@@ -139,7 +139,7 @@ struct FlagSet
    *
    * The resulting bitset contains at least 1 bit.
    */
-  FlagSet operator|(const T &val)
+  FlagSet operator|(const T &val) const
   {
     FlagSet ret(*this);
     ret |= val;
@@ -151,7 +151,7 @@ struct FlagSet
    * Perform a OR binary operation between *this and
    * `val` and return the result as a copy.
    */
-  FlagSet operator|(const FlagSet &val)
+  FlagSet operator|(const FlagSet &val) const
   {
     FlagSet ret(*this);
     ret.bitset |= val.bitset;
@@ -159,7 +159,7 @@ struct FlagSet
     return ret;
   }
 
-  FlagSet operator~()
+  FlagSet operator~() const
   {
     FlagSet cp(*this);
     cp.bitset.flip();
@@ -173,6 +173,15 @@ struct FlagSet
   operator bool() const
   {
     return bitset.any();
+  }
+
+  /**
+   * Convers the bitset to an unsigned long.
+   * @return
+   */
+  operator unsigned long() const
+  {
+    return bitset.to_ulong();
   }
 
   /**
