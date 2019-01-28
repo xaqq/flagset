@@ -1,6 +1,8 @@
 #include "flagset.hpp"
 #include <cassert>
 
+using namespace FlagSetOperator;
+
 /**
  * Some random enum to use in tests.
  */

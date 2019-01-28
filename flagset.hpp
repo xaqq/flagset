@@ -198,6 +198,16 @@ struct FlagSet
     return bitset == o.bitset;
   }
 
+  bool operator==(bool o) const
+  {
+    return static_cast<bool>(*this) == o;
+  }
+
+  bool operator!=(bool o) const
+  {
+    return static_cast<bool>(*this) != o;
+  }
+
   std::size_t size() const
   {
     return bitset.size();
