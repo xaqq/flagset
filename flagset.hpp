@@ -6,6 +6,8 @@
  * Copyright (c) 2015 Arnaud Kapp
  */
 
+#pragma once
+
 #include <iostream>
 #include <bitset>
 
@@ -259,7 +261,7 @@ struct FlagSet
     return *this;
   }
 
-  bool operator[](const T &val)
+  bool operator[](const T &val) const
   {
     return bitset[static_cast<utype>(val)];
   }
