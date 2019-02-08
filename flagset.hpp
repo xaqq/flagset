@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include <iostream>
 #include <bitset>
 
 /**
@@ -26,7 +25,6 @@
  *      * This code source requires a C++11 compliant compiler.
  *      * The user enumeration shall not explicitely set any value.
  *      * The last enumeration member shall be: "LAST__"
- *
  */
 template <typename T>
 struct FlagSet
@@ -274,19 +272,17 @@ struct FlagSet
     return stream << me.bitset;
   }
 
-
 private:
   using utype = typename std::underlying_type<T>::type;
-        using bitset_type = std::bitset<static_cast<utype>(T::LAST__)>;
+  using bitset_type = std::bitset<static_cast<utype>(T::LAST__)>;
   bitset_type bitset;
 
-      public:
-        FlagSet(const std::string &repr) :
-            bitset(repr)
-        {
-
-        }
-        const bitset_type &get_bitset() const {return bitset;}
+public:
+  FlagSet(const std::string &repr) :
+    bitset(repr)
+  {
+  }
+  const bitset_type &get_bitset() const {return bitset;}
 };
 
 template<typename E>
