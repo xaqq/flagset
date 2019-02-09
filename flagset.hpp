@@ -170,16 +170,15 @@ struct FlagSet
   /**
    * The bitset evaluates to true if any bit is set.
    */
-  operator bool() const
+  explicit operator bool() const
   {
     return bitset.any();
   }
 
   /**
    * Convers the bitset to an unsigned long.
-   * @return
    */
-  operator unsigned long() const
+  explicit operator unsigned long() const
   {
     return bitset.to_ulong();
   }
@@ -287,11 +286,9 @@ public:
 
 template<typename E>
 using is_scoped_enum = std::integral_constant<
-    bool,
-    std::is_enum<E>::value && !std::is_convertible<E, int>::value>;
+  bool,
+  std::is_enum<E>::value && !std::is_convertible<E, int>::value>;
 
-namespace FlagSetOperator
-{
 /**
  * Provide a free operator allowing to combine two enumeration
  * member into a FlagSet.
@@ -300,10 +297,9 @@ template<typename T>
 typename std::enable_if<is_scoped_enum<T>::value, FlagSet<T>>::type
 operator|(const T &lhs, const T &rhs)
 {
-    FlagSet<T> bs;
-    bs |= lhs;
-    bs |= rhs;
-
-    return bs;
-}
+  FlagSet<T> bs;
+  bs |= lhs;
+  bs |= rhs;
+  
+  return bs;
 }

@@ -1,7 +1,6 @@
 #include "flagset.hpp"
 #include <cassert>
-
-using namespace FlagSetOperator;
+#include <iostream>
 
 /**
  * Some random enum to use in tests.
@@ -90,6 +89,7 @@ void test_set_reset()
   assert(opt.count() == 0);
 
   opt.set(Options::BLA);
+  std::cout << opt << std::endl;
   assert(opt.count() == 1 && opt[Options::BLA]);
   opt.set(Options::BLA, false);
   assert(opt.count() == 0);
